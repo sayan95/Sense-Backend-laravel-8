@@ -15,7 +15,7 @@ class LoginController extends Controller
     private $therapistService;
     public function __construct(ITherapistService $therapistService)
     {
-        $this->middleware("throttle: 15, 3")->only('login');
+        //$this->middleware("throttle: 15, 3")->only('login');
         $this->therapistService = $therapistService;
     }
 
@@ -118,7 +118,7 @@ class LoginController extends Controller
         ]);
 
         // success json
-        $this->sendLoginSuccessResponse($token, $expiration, $jwtCookie);
+        return $this->sendLoginSuccessResponse($token, $expiration, $jwtCookie);
     }
 
     /**
@@ -130,7 +130,6 @@ class LoginController extends Controller
             'alertType' => 'login-success',
             'message' => 'You are Logged in successfully',
             'token'=>$token,
-            'token_type' => 'bearer',
             'expires_in' => $expiration,
             'user' => new TherapistResource($this->therapistService->findTherapistById($this->guard()->id(), ['profile']))
         ], 200)->withCookie($jwtCookie);

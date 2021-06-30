@@ -93,8 +93,8 @@ trait EmailVerificationTrait
     protected function sendInvalidUserResponse()
     {
         return response()->json([
-            'alertType' => 'verification-link-error',
-            'message' => "Invalid verification link"
+            'alertType' => 'therapist-not-found-error',
+                'message' => "We can't find a user with that email address."
         ], 422);
     }
 
