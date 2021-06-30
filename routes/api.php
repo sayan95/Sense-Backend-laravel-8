@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Web\Customer\Therapist\Auth\{
     LoginController,
-    RegisterController
+    RegisterController,
+    ValidateRegisterOTPController
 };
 
 
@@ -24,7 +25,7 @@ Route::group([
     Route::group([ 'middleware' => 'guest:therapist' ], function(){
         Route::post('/login', [LoginController::class, 'login'])->name('therapist.login');
         Route::post('/register', [RegisterController::class, 'register'])->name('therapist.register');
-        // Route::post('/auth/verify', 'EmailVerificationController@verify')->name('therapist.verify.email');
+        Route::post('/auth/verify', [ValidateRegisterOTPController::class, 'verify'])->name('therapist.verify.email');
         // Route::get('/resend/verify', 'ResendOtpController@resendLink')->name('therapist.verify.email.resend');
     });
     //auth protected routes
