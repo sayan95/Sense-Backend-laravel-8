@@ -1,7 +1,6 @@
 <?php
 
-use App\Models\User\User;
-use App\Models\Users\Therapist;
+
 
 return [
 
@@ -76,12 +75,12 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => User::class,
+            'model' => App\Models\Users\User::class
         ],
 
         'therapist' => [
             'driver' => 'eloquent',
-            'model' => Therapist::class
+            'model' => App\Models\Users\Therapist::class
         ]
     ],
 

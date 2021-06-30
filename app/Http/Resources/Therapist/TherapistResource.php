@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Therapist;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TherapistResource extends JsonResource
@@ -23,7 +24,7 @@ class TherapistResource extends JsonResource
                 'email_verified_at' => $this->email_verified_at,
                 'created_at' => $this->created_at->format('jS F Y, g:i a'),
                 'updated_at' => $this->updated_at->format('jS F Y, g:i a'),
-                'logged_in_at' => $this->logged_in_at ? $this->logged_in_at->format('jS F Y, g:i a') : null 
+                'logged_in_at' => $this->logged_in_at ? Carbon::parse($this->logged_in_at)->timezone('Asia/kolkata')->format('jS F Y, g:i a') : null 
             ], 
             'account_status' => [
                 'is_published' =>  $this->is_active ? 'published' : 'waiting', 

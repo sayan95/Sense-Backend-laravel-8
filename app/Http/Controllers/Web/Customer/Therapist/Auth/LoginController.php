@@ -130,6 +130,7 @@ class LoginController extends Controller
             'alertType' => 'login-success',
             'message' => 'You are Logged in successfully',
             'token'=>$token,
+            'token_type' => 'bearer',
             'expires_in' => $expiration,
             'user' => new TherapistResource($this->therapistService->findTherapistById($this->guard()->id(), ['profile']))
         ], 200)->withCookie($jwtCookie);

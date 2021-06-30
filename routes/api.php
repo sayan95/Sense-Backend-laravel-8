@@ -1,10 +1,10 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Web\Customer\Therapist\Auth\{
     LoginController,
+    LogoutController,
     RegisterController,
     ResendOTPNotificationController,
     ValidateRegisterOTPController
@@ -29,10 +29,10 @@ Route::group([
         Route::get('/resend/verify', [ResendOTPNotificationController::class, 'resend'])->name('therapist.verify.email.resend');
     });
     //auth protected routes
-    // Route::group(['middleware' => 'auth:therapist'], function(){
-    //     Route::post('/reset/password', 'ResetPasswordController@resetPassword')->name('therapist.reset.password');       // therapist-logout 
-    //     Route::post('/logout', 'LogoutController@logout')->name('therapist.logout');       // therapist-logout 
-    // });
+    Route::group(['middleware' => 'auth:therapist'], function(){
+        //Route::post('/reset/password', 'ResetPasswordController@resetPassword')->name('therapist.reset.password');       // therapist-logout 
+        Route::post('/logout', [LogoutController::class, 'logout'])->name('therapist.logout');       // therapist-logout 
+    });
 }); 
 
 /**

@@ -2,9 +2,11 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Throwable;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -40,6 +42,20 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (Throwable $e, $request) {
+            // checks for maintainance mode
+            if($e instanceof HttpException && $request->expectsJson()){
+                return response()->json([
+                    'alertType' => 'app-in-maintainance',
+                    'message' => 'Our application is in maintainance mode. Try after some time.'
+                ], 503);
+            }
+            // if user is unauthenticated
+            if($e instanceof AuthenticationException && $request->expectsJson()){
+                return response()->json([
+                    'alertType' => 'user-unauthenticated',
+                    'message' => 'You are unauthenticated.'
+                ], 401);
+            }
             // if user exceeds the maximum number of attempt
             if($e instanceof ThrottleRequestsException && $request->expectsJson()){
                 return response()->json([
