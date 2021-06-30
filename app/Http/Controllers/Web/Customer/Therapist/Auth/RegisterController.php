@@ -1,0 +1,63 @@
+<?php
+
+namespace App\Http\Controllers\Web\Customer\Therapist\Auth;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Validator;
+use App\Services\Interfaces\ITherapistService;
+
+class RegisterController extends Controller
+{
+    private $therapistService;
+
+    public function __construct(ITherapistService $therapistService)
+    {
+        $this->therapistService = $therapistService; 
+    }
+
+    //  register therapist to system
+    public function register(Request $request){
+        // validate request
+        $this->validator($request->all())->validate();
+
+        // create the user
+        $newUser =  $this->therapistService->addTherapist([
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'profile_created' => false,
+            'is_active' => false
+        ]);
+
+        // generate a 6 digit token
+        $token = rand(100000, 999999);
+        
+        // set the token in a cookie
+        $otpCookie = cookie('OTP_COOKIE', Crypt::encrypt($token), 60);
+
+        // set the new user to the cookie (private)
+        $attempterCookie = cookie('attempter', Crypt::encrypt($newUser->email), 60);
+        
+       // sending email verification link
+       $newUser->sendEmailVerificationMail($token);
+
+        // return response
+        return response()->json([
+            'alertType' => 'otp-sent',
+            'message' => 'An OTP has been sent to your email. Please check your email'
+        ], 200)->withCookie($otpCookie)
+            ->withCookie($attempterCookie); // attch cookie with the response
+    }
+
+    // request validator
+    public function validator(array $data){
+        return Validator::make($data, [
+            'email' => ['required', 'string', 'email', 'max:50','unique:therapists,email'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'password_confirmation' => ['required']
+        ],[
+            'password.confirmed' => 'Password did not match'
+        ]);   
+    }
+}
