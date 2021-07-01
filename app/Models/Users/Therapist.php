@@ -3,13 +3,18 @@
 namespace App\Models\Users;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use App\Notifications\LoginOTPNotification;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\LoginOTPNotification;
+use Rennokki\QueryCache\Traits\QueryCacheable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Therapist extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+    //use QueryCacheable;
+
+    // cache queries for 3 minutes
+    //protected $cacheFor = 180; 
     
     // fillable properties
     protected $fillable = ['id', 'username','email' , 'password', 'user_type', 'is_puiblished', 'email_verified_at', 'is_active', 'profile_created', 'logged_in_at'];

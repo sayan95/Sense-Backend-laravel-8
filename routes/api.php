@@ -10,7 +10,9 @@ use App\Http\Controllers\Web\Customer\Therapist\Auth\{
     ResetPasswordController,
     ValidateRegisterOTPController
 };
-
+use App\Http\Controllers\Web\Customer\Therapist\MyAccount\{
+    MeController
+};
 
 /**
  * ---------------------------------------
@@ -43,16 +45,15 @@ Route::group([
  *  profile-api
  * --------------------------------------------
  */
-// Route::group([
-//     'prefix' => 'therapist/profile-api',
-//     'namespace' => 'Web\User\Therapist\Profile',
-// ], function(){
-//     // auth protected routes
-//     Route::group(['middleware' => 'auth:therapist'], function(){
-//         Route::get('/profile', 'MeController@me')->name('therapist.profile');            // therapist-profile-index
-//         Route::post('/create/profile/{email}', 'ProfileController@createProfile')->name('therapist.profile.create');    // therapist-profile-create
-//     });
-// });
+Route::group([
+    'prefix' => 'therapist/profile-api',
+], function(){
+    // auth protected routes
+    Route::group(['middleware' => 'auth:therapist'], function(){
+        Route::get('/profile', [MeController::class, 'me'])->name('therapist.profile');            // therapist-profile-index
+        //Route::post('/create/profile/{email}', 'ProfileController@createProfile')->name('therapist.profile.create');    // therapist-profile-create
+    });
+});
 
 
 /**
