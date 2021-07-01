@@ -34,7 +34,7 @@
                 Use this OTP to vertify your email.
             </p>
             <p class="mt-5" style="font-size: 33px">
-                556882
+                {{ $token }}
             </p>
             <p class="mt-11"> 
                 <b>Note : </b> <span>Do not share this code with any other person</span> 

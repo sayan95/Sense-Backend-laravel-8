@@ -7,6 +7,7 @@ use App\Http\Controllers\Web\Customer\Therapist\Auth\{
     LogoutController,
     RegisterController,
     ResendOTPNotificationController,
+    ResetPasswordController,
     ValidateRegisterOTPController
 };
 
@@ -30,7 +31,7 @@ Route::group([
     });
     //auth protected routes
     Route::group(['middleware' => 'auth:therapist'], function(){
-        //Route::post('/reset/password', 'ResetPasswordController@resetPassword')->name('therapist.reset.password');       // therapist-logout 
+        Route::post('/reset/password', [ResetPasswordController::class, 'resetPassword'])->name('therapist.reset.password');       // therapist-logout 
         Route::post('/logout', [LogoutController::class, 'logout'])->name('therapist.logout');       // therapist-logout 
     });
 }); 
