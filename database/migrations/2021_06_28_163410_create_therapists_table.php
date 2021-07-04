@@ -14,7 +14,7 @@ class CreateTherapistsTable extends Migration
     public function up()
     {
         Schema::create('therapists', function (Blueprint $table) {
-            $table->id();
+            $table->id()->from(7000000000);
             $table->string('username')->unique()->nullable();
             $table->string('user_type')->default('therapist');
             $table->string('email')->unique();
@@ -22,6 +22,8 @@ class CreateTherapistsTable extends Migration
             $table->boolean('is_active')->default(false);
             $table->boolean('is_published')->default(false);
             $table->boolean('profile_created')->default(false);
+            $table->boolean('password_reset_initiated')->default(false);
+            $table->timestamp('password_reset_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('logged_in_at')->nullable();
             $table->timestamps();

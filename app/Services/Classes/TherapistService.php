@@ -42,13 +42,28 @@ class TherapistService implements ITherapistService{
         return $this->therapist->createProfile($email, $data);
     }
 
-    // delet therapist account by id
+    // delete therapist account by id
     public function deleteTherapistAccountById($id){
         $this->therapist->delete($id);
     }
 
-    // 
+    // delee therapist account by specific field
     public function deleteTherapistAccountByField($col, $value){
         $this->therapist->deleteBySpecificField($col, $value);
+    }
+
+    // registers therapist for password reset
+    public function registerTherapistForPasswordReset($email, $token){
+        $this->therapist->registerForPasswordReset($email, $token);
+    }
+
+    // validates password reset request is true or not
+    public function validatePasswordResetToken($email, $token){
+        return $this->therapist->validatePasswordResetToken($email, $token);
+    }
+
+    // dergisters enrty from password reset table
+    public function deregisterForPasswordReset($email){
+        $this->therapist->deregisterForPasswordReset($email);
     }
 }

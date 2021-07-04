@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Web\Customer\Therapist\Auth\{
+    ConfirmPasswordController,
+    ForgetPasswordController,
     LoginController,
     LogoutController,
     RegisterController,
@@ -30,6 +32,8 @@ Route::group([
         Route::post('/register', [RegisterController::class, 'register'])->name('therapist.register');
         Route::post('/auth/verify', [ValidateRegisterOTPController::class, 'verify'])->name('therapist.verify.email');
         Route::get('/resend/verify', [ResendOTPNotificationController::class, 'resend'])->name('therapist.verify.email.resend');
+        Route::post('/reset-password/send-link', [ForgetPasswordController::class, 'sendPasswordResetLink'])->name('therapist.password.link');
+        Route::post('/reset-password/{token}', [ConfirmPasswordController::class, 'confirmPasswordChange'])->name('therapist.verify.reset');
     });
     //auth protected routes
     Route::group(['middleware' => 'auth:therapist'], function(){
@@ -51,7 +55,7 @@ Route::group([
     // auth protected routes
     Route::group(['middleware' => 'auth:therapist'], function(){
         Route::get('/profile', [MeController::class, 'me'])->name('therapist.profile');            // therapist-profile-index
-        //Route::post('/create/profile/{email}', 'ProfileController@createProfile')->name('therapist.profile.create');    // therapist-profile-create
+        //Route::post('/create/{email}', 'ProfileController@createProfile')->name('therapist.profile.create');    // therapist-profile-create
     });
 });
 

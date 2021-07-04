@@ -53,7 +53,9 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
-
+    'client_url' => env('CLIENT_URL', 'http://localhost:3000'),
+    'therapist_reset_password_url' => env('THERAPIST_RESET_PASSWORD_URL', 'http://localhost:3000/therapist/auth/reset-password'),
+    
     'asset_url' => env('ASSET_URL', null),
 
     /*

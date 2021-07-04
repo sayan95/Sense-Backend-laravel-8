@@ -3,6 +3,7 @@
 namespace App\Models\Users;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Notifications\ResetYourPassword;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\LoginOTPNotification;
 use Rennokki\QueryCache\Traits\QueryCacheable;
@@ -11,16 +12,23 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Therapist extends Authenticatable implements JWTSubject
 {
     use Notifiable;
-    //use QueryCacheable;
+    // use QueryCacheable;
 
-    // cache queries for 3 minutes
-    //protected $cacheFor = 180; 
+    // // cache queries for 3 minutes
+    // protected $cacheFor = 180; 
     
     // fillable properties
-    protected $fillable = ['id', 'username','email' , 'password', 'user_type', 'is_puiblished', 'email_verified_at', 'is_active', 'profile_created', 'logged_in_at'];
+    protected $fillable = [
+        'id','username','email' , 'password', 
+        'user_type', 'is_puiblished', 'email_verified_at', 'is_active', 
+        'profile_created', 'logged_in_at', 'password_reset_initiated', 'password_reset_at',
+    ];
     
     // date fields
-    protected $dates = ['created_at', 'updated_at', 'email_verified_at', 'logged_in_at'];
+    protected $dates = [
+        'created_at', 'updated_at', 'email_verified_at', 
+        'logged_in_at', 'password_reset_at'
+    ];
 
     // relationships
     public function profile(){
@@ -46,5 +54,10 @@ class Therapist extends Authenticatable implements JWTSubject
     // sends verification link
     public function sendEmailVerificationMail($token){
         $this->notify(new LoginOTPNotification($token));
+    }
+
+    // send password reset link
+    public function sendPasswordResetMail($token){
+        $this->notify(new ResetYourPassword($token));
     }
 }

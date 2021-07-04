@@ -10,4 +10,7 @@ interface ITherapistService {
     public function updateTherapistDetails($id, array $data);
     public function deleteTherapistAccountById($id);
     public function deleteTherapistAccountByField($col, $value);
+    public function registerTherapistForPasswordReset($email, $token);
+    public function validatePasswordResetToken($email, $token);
+    public function deregisterForPasswordReset($email);
 }
