@@ -8,7 +8,8 @@ class TherapistProfile extends Eloquent
 {
     // fillable properties
     protected $fillable = [
-        'therapist_id', 'firstname', 'lastname', 'phone', 'gender', 
+        'therapist_id', 'firstname', 'lastname', 'phone', 'gender',
+        'address', 'pin', 'state', 'country',
         'language_proficiency', 'education', 'therapist_profile', 
         'experties', 'spectrum_specialization', 'age_group'
     ];
@@ -22,7 +23,7 @@ class TherapistProfile extends Eloquent
         'language_proficiency' => 'array',
         'spectrum_specialization' => 'array',
     ];
-
+    
     // relationships
     public function therapist(){
         return $this->belongsTo(Therapist::class);

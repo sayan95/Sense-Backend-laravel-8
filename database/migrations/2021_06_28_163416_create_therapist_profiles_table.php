@@ -19,6 +19,10 @@ class CreateTherapistProfilesTable extends Migration
             $table->string('lastname');
             $table->string('phone')->unique();
             $table->string('gender');
+            $table->text('address')->nullable();
+            $table->integer('pin')->nillable();
+            $table->string('state')->nullable();
+            $table->string('country')->default('india');
             $table->json('education');
             $table->json('experties');
             $table->json('age_group');

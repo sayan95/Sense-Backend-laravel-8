@@ -13,6 +13,7 @@ use App\Http\Controllers\Web\Customer\Therapist\Auth\{
     ValidateRegisterOTPController
 };
 use App\Http\Controllers\Web\Customer\Therapist\MyAccount\{
+    CreateProfileController,
     MeController
 };
 
@@ -33,7 +34,7 @@ Route::group([
         Route::post('/auth/verify', [ValidateRegisterOTPController::class, 'verify'])->name('therapist.verify.email');
         Route::get('/resend/verify', [ResendOTPNotificationController::class, 'resend'])->name('therapist.verify.email.resend');
         Route::post('/reset-password/send-link', [ForgetPasswordController::class, 'sendPasswordResetLink'])->name('therapist.password.link');
-        Route::post('/reset-password/{token}', [ConfirmPasswordController::class, 'confirmPasswordChange'])->name('therapist.verify.reset');
+        Route::put('/reset-password/{token}', [ConfirmPasswordController::class, 'confirmPasswordChange'])->name('therapist.verify.reset');
     });
     //auth protected routes
     Route::group(['middleware' => 'auth:therapist'], function(){
@@ -55,7 +56,7 @@ Route::group([
     // auth protected routes
     Route::group(['middleware' => 'auth:therapist'], function(){
         Route::get('/profile', [MeController::class, 'me'])->name('therapist.profile');            // therapist-profile-index
-        //Route::post('/create/{email}', 'ProfileController@createProfile')->name('therapist.profile.create');    // therapist-profile-create
+        Route::post('/create/{email}', [CreateProfileController::class, 'createProfile'])->name('therapist.profile.create');    // therapist-profile-create
     });
 });
 

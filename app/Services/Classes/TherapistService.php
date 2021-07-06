@@ -17,7 +17,9 @@ class TherapistService implements ITherapistService{
     // find a therapist by id
     public function findTherapistById($id, array $relations)
     {
-        return $this->therapist->withCriterias([new EagerLoad($relations)])->find($id);    
+        return $this->therapist
+                    ->withCriterias([new EagerLoad($relations)])
+                    ->find($id);    
     }
 
     // find a therapist by specifi field

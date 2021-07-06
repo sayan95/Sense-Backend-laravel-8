@@ -6,16 +6,18 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Notifications\ResetYourPassword;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\LoginOTPNotification;
+use App\Notifications\WelcomeNotification;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Therapist extends Authenticatable implements JWTSubject
 {
     use Notifiable;
-    // use QueryCacheable;
+    use QueryCacheable;
 
-    // // cache queries for 3 minutes
-    // protected $cacheFor = 180; 
+    // cache queries for 3 minutes
+    protected $cacheFor = 180; 
+    protected static $flushCacheOnUpdate = true;
     
     // fillable properties
     protected $fillable = [
@@ -54,6 +56,11 @@ class Therapist extends Authenticatable implements JWTSubject
     // sends verification link
     public function sendEmailVerificationMail($token){
         $this->notify(new LoginOTPNotification($token));
+    }
+
+    // sends welcome mail
+    public function sendWelcomeMail(){
+        $this->notify(new WelcomeNotification);
     }
 
     // send password reset link
